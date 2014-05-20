@@ -1,0 +1,15 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/Character.cs">
+    <Files>
+      <File FileName="Assets/Resources/Scripts/Platform.cs" Line="13" Column="3" />
+      <File FileName="Assets/Resources/Scripts/Helper.cs" Line="8" Column="3" />
+      <File FileName="Assets/Resources/Scripts/MovingObject.cs" Line="33" Column="3" />
+      <File FileName="Assets/Resources/Scripts/Character.cs" Line="15" Column="3" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
