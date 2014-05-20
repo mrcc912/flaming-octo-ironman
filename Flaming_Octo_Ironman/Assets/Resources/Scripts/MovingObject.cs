@@ -32,6 +32,20 @@ public class MovingObject : MonoBehaviour {
 		velocity.y = y;
 	}
 
+	public void AddY(float y)
+	{
+		Vector2 v = rigidbody2D.velocity;
+		v.y += y;
+		rigidbody2D.velocity = v;
+	}
+
+	public void AddX(float x)
+	{
+		Vector2 v = rigidbody2D.velocity;
+		v.x += x;
+		rigidbody2D.velocity = v;
+	}
+
 	public void arrestMomentum()
 	{
 		acceleration = Vector2.zero;
@@ -40,7 +54,7 @@ public class MovingObject : MonoBehaviour {
 
 	public void addForce(Vector2 F)
 	{
-		rigidbody2D.velocity = F;
+		rigidbody2D.velocity =  rigidbody2D.velocity + F;
 	}
 
 }
