@@ -48,10 +48,6 @@
   <ItemGroup>
      <Compile Include="Assets\Resources\Scripts\CameraFollower.cs" />
      <Compile Include="Assets\Resources\Scripts\Character.cs" />
-     <Compile Include="Assets\Resources\Scripts\Character.cs.BACKUP.95240.cs" />
-     <Compile Include="Assets\Resources\Scripts\Character.cs.BASE.95240.cs" />
-     <Compile Include="Assets\Resources\Scripts\Character.cs.LOCAL.95240.cs" />
-     <Compile Include="Assets\Resources\Scripts\Character.cs.REMOTE.95240.cs" />
      <Compile Include="Assets\Resources\Scripts\Helper.cs" />
      <Compile Include="Assets\Resources\Scripts\MovingObject.cs" />
      <Compile Include="Assets\Resources\Scripts\Platform.cs" />

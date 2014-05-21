@@ -44,10 +44,12 @@ public class Character : MonoBehaviour {
 		else
 		{
 			mover.isMoving = false;
+			animator.SetInteger("State", 1);
 		}
 
 		if (Input.GetKeyDown(KeyCode.Space) && canJump)
 		{
+			animator.SetInteger("State", 3);
 			if (isCollidingWithWall)
 			{
 				if (collisionDirection == Direction.Left)
@@ -64,35 +66,20 @@ public class Character : MonoBehaviour {
 				mover.Jump();
 			}
 			canJump = false;
-			animator.SetInteger("State", 1);
-
 		}
-		/*
-		if (Input.GetKeyDown(KeyCode.A))
-		{
-			animator.SetInteger("State", 2);
-			mover.SetX(-movementSpeedAmount);
-			Helper.SetYRotation(animator.transform, 180);
-		}
-		if (Input.GetKeyUp(KeyCode.A))
-		{
-			animator.SetInteger("State", 1);
-			mover.SetX(0);
-		}
-		*/
 	}
 
 	void OnCollisionEnter2D(Collision2D collision)
 	{
 		if (collision.gameObject.GetComponent<Platform>() != null)
 		{
+			animator.SetInteger("State", 1);
 			mover.isInAir = false;
 
 			isCollidingWithWall = true;
 			canJump = true;
 
 			collisionDirection = DetermineCollisionDirection(collision);
-			Debug.Log(collisionDirection);
 		}
 	}
 
@@ -101,7 +88,6 @@ public class Character : MonoBehaviour {
 		if (collision.gameObject.GetComponent<Platform>() != null)
 		{
 			mover.isInAir = true;
-
 			isCollidingWithWall = false;
 			canJump = false;
 		}
