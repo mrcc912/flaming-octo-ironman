@@ -7,6 +7,7 @@ public class Character : MonoBehaviour {
 
 	private Direction collisionDirection;
 	private MovingObject mover;
+	private Animator animator;
 
 	private bool isCollidingWithWall;
 	private bool canJump;
@@ -18,6 +19,7 @@ public class Character : MonoBehaviour {
 	void Awake()
 	{
 		mover = GetComponent<MovingObject>();
+		animator = GetComponentInChildren<Animator>();
 	}
 
 	// Update is called once per frame
@@ -29,6 +31,15 @@ public class Character : MonoBehaviour {
 		{
 			mover.Move(new Vector2(horizontal * speed, 0));
 			mover.isMoving = true;
+			animator.SetInteger("State", 2);
+			if(horizontal >0 )
+			{
+				Helper.SetYRotation(animator.transform, 0);
+			}
+			else
+			{
+				Helper.SetYRotation(animator.transform, 180);
+			}
 		}
 		else
 		{
@@ -53,7 +64,22 @@ public class Character : MonoBehaviour {
 				mover.Jump();
 			}
 			canJump = false;
+			animator.SetInteger("State", 1);
+
 		}
+		/*
+		if (Input.GetKeyDown(KeyCode.A))
+		{
+			animator.SetInteger("State", 2);
+			mover.SetX(-movementSpeedAmount);
+			Helper.SetYRotation(animator.transform, 180);
+		}
+		if (Input.GetKeyUp(KeyCode.A))
+		{
+			animator.SetInteger("State", 1);
+			mover.SetX(0);
+		}
+		*/
 	}
 
 	void OnCollisionEnter2D(Collision2D collision)

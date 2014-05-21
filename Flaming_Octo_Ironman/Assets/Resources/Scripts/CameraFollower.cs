@@ -2,9 +2,11 @@
 using System.Collections;
 
 public class CameraFollower : MonoBehaviour {
-	
+
+	public Camera cam;
+
 	void Update()
 	{
-		Camera.main.transform.position = transform.position;
+		cam.transform.position = transform.position;
 	}
 }

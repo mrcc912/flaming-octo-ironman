@@ -3,13 +3,17 @@ using System.Collections;
 
 public class Helper : MonoBehaviour {
 
-	public static void SetX(Vector2 v, float x)
+	public static void SetXRotation(Transform t, float x)
 	{
-
+		Quaternion r = t.localRotation;
+		r.x = x;
+		t.localRotation = r;
 	}
 
-	public static void SetY(Vector2 v, float y)
+	public static void SetYRotation(Transform t, float y)
 	{
-
+		Quaternion r = t.localRotation;
+		r.y = y;
+		t.localRotation = r;
 	}
 }
