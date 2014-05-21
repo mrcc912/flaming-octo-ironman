@@ -3,47 +3,49 @@ using System.Collections;
 
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
+
 public class MovingObject : MonoBehaviour {
 
-	public Vector2 velocity = Vector2.zero;
+	public bool isMoving;
+	public bool isInAir;
 
-	public Vector2 acceleration = Vector2.zero;
+	private float decelerateFactor = .99f;
+	private float maxVelocity = 25f;
+
+	private Vector2 acceleration = Vector2.zero;
+	private Vector2 velocity = Vector2.zero;
 	
 	// Update is called once per frame
-	void Update () {
-		/*
-		Vector2 newPosition = transform.position;
-		newPosition += velocity;
-		transform.position = newPosition;
-		velocity += acceleration;
-		*/
-
+	void Update ()
+	{
+		if (Mathf.Abs(rigidbody2D.velocity.x) >= .1f)
+		{
+			if (!isMoving && !isInAir)
+			{
+				rigidbody2D.AddForce(new Vector2(-rigidbody2D.velocity.x * decelerateFactor, 0));
+			}
+		}
+		else
+		{
+			rigidbody2D.velocity = new Vector2(0, rigidbody2D.velocity.y);
+		}
 	}
 
-	public void SetX(float x)
+	public void Move(Vector2 vec)
 	{
-		Vector2 v = rigidbody2D.velocity;
-		v.x = x;
-		rigidbody2D.velocity = v;
+		if (rigidbody2D.velocity.x + vec.x <= maxVelocity)
+		{
+			rigidbody2D.AddForce(vec);
+		}
+		else
+		{
+			rigidbody2D.velocity = new Vector2(maxVelocity, rigidbody2D.velocity.y);
+		}
 	}
 
-	public void SetY(float y)
+	public void Jump(float push = 0f)
 	{
-		velocity.y = y;
-	}
-
-	public void AddY(float y)
-	{
-		Vector2 v = rigidbody2D.velocity;
-		v.y += y;
-		rigidbody2D.velocity = v;
-	}
-
-	public void AddX(float x)
-	{
-		Vector2 v = rigidbody2D.velocity;
-		v.x += x;
-		rigidbody2D.velocity = v;
+		rigidbody2D.AddForce(new Vector2(push, -Physics2D.gravity.y * 50));
 	}
 
 	public void arrestMomentum()
@@ -51,10 +53,4 @@ public class MovingObject : MonoBehaviour {
 		acceleration = Vector2.zero;
 		velocity = Vector2.zero;
 	}
-
-	public void addForce(Vector2 F)
-	{
-		rigidbody2D.velocity =  rigidbody2D.velocity + F;
-	}
-
 }

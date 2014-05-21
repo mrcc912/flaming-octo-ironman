@@ -1,55 +1,98 @@
-﻿using UnityEngine;
+﻿ using UnityEngine;
 using System.Collections;
 
 public class Character : MonoBehaviour {
 
-	private float movementSpeedAmount = 10f;
-	private bool horizontalLock = false;
+	private enum Direction { Left, Right };
+
+	private Direction collisionDirection;
 	private MovingObject mover;
+
+	private bool isCollidingWithWall;
+	private bool canJump;
+
+	private float speed = 10f;
+
+	public float jumpPush = 100f;
 
 	void Awake()
 	{
 		mover = GetComponent<MovingObject>();
 	}
+
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
+		float horizontal = Input.GetAxisRaw("Horizontal");
 
-		if (Input.GetKeyDown(KeyCode.D))
+		if (horizontal != 0)
 		{
-			//mover.AddX(movementSpeedAmount);
-			mover.SetX(movementSpeedAmount);
+			mover.Move(new Vector2(horizontal * speed, 0));
+			mover.isMoving = true;
 		}
-		if (Input.GetKeyUp(KeyCode.D))
+		else
 		{
-			//mover.AddX(-movementSpeedAmount);
-			mover.SetX(0);
-		}
-
-		if (Input.GetKeyDown(KeyCode.A))
-		{
-			//mover.AddX(-movementSpeedAmount);
-			mover.SetX(-movementSpeedAmount);
-		}
-		if (Input.GetKeyUp(KeyCode.A))
-		{
-			//mover.SetX(movementSpeedAmount);
-			mover.SetX(0);
+			mover.isMoving = false;
 		}
 
-		if (Input.GetKeyDown(KeyCode.S))
+		if (Input.GetKeyDown(KeyCode.Space) && canJump)
 		{
-			
+			if (isCollidingWithWall)
+			{
+				if (collisionDirection == Direction.Left)
+				{
+					mover.Jump(jumpPush);
+				}
+				else
+				{
+					mover.Jump(-jumpPush);
+				}
+			}
+			else
+			{
+				mover.Jump();
+			}
+			canJump = false;
 		}
+	}
 
-		if (Input.GetKeyDown(KeyCode.W))
+	void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (collision.gameObject.GetComponent<Platform>() != null)
 		{
+			mover.isInAir = false;
 
+			isCollidingWithWall = true;
+			canJump = true;
+
+			collisionDirection = DetermineCollisionDirection(collision);
+			Debug.Log(collisionDirection);
 		}
+	}
 
-		if (Input.GetKeyDown(KeyCode.Space))
+	void OnCollisionExit2D(Collision2D collision)
+	{
+		if (collision.gameObject.GetComponent<Platform>() != null)
 		{
-			mover.addForce(new Vector2(0, 10));
+			mover.isInAir = true;
 
+			isCollidingWithWall = false;
+			canJump = false;
+		}
+	}
+
+	private Direction DetermineCollisionDirection(Collision2D collision)
+	{
+		Vector2 hitDirection = collision.contacts[1].point - (Vector2)transform.position;
+		Vector2 left = transform.TransformDirection(Vector3.left);
+
+		if (Vector2.Dot(left, hitDirection) > 0)
+		{
+			return Direction.Left;
+		}
+		else
+		{
+			return Direction.Right;
 		}
 	}
 }
