@@ -11,7 +11,7 @@ public class Damage : MonoBehaviour {
 
 		if (collidedObject.GetComponent<Character>() != null)
 		{
-			StartCoroutine(collidedObject.GetComponent<Death>().Die());
+			collidedObject.GetComponent<Death>().Die();
 		}
 	}
 }

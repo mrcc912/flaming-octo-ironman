@@ -8,23 +8,27 @@ public class Death : MonoBehaviour {
 	private float levelResetDelay = 2f;
 	private float flashTimer = 2f;
 
-	public IEnumerator Die()
+	private bool alreadyDying;
+
+	public void Die()
 	{
-		SpriteRenderer sr = this.gameObject.GetComponentInChildren<SpriteRenderer>();
-
-		StartCoroutine(FlashyDeath(sr));
-
-		if (this.gameObject.GetComponent<MovingObject>() != null)
+		if (!alreadyDying)
 		{
-			this.gameObject.GetComponent<MovingObject>().ArrestMovement();
-		}
+			alreadyDying = true;
+			SpriteRenderer sr = this.gameObject.GetComponentInChildren<SpriteRenderer>();
 
-		if (this.gameObject.GetComponent<Character>() != null)
-		{
-			this.gameObject.GetComponent<Character>().enabled = false;
+			StartCoroutine(FlashyDeath(sr));
 
-			yield return new WaitForSeconds(levelResetDelay);
-			ResetLevel();
+			if (this.gameObject.GetComponent<MovingObject>() != null)
+			{
+				this.gameObject.GetComponent<MovingObject>().ArrestMovement();
+			}
+
+			if (this.gameObject.GetComponent<Character>() != null)
+			{
+				this.gameObject.GetComponent<Character>().enabled = false;
+				StartCoroutine(ResetLevel());
+			}
 		}
 	}
 
@@ -41,8 +45,14 @@ public class Death : MonoBehaviour {
 		}
 	}
 
-	private void ResetLevel()
+	private IEnumerator ResetLevel()
 	{
+		while (levelResetDelay > 0)
+		{
+			levelResetDelay -= Time.deltaTime;
+			yield return null;
+		}
+
 		Application.LoadLevel(Application.loadedLevel);
 	}
 }
