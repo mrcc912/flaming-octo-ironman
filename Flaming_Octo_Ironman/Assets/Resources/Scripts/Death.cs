@@ -27,7 +27,7 @@ public class Death : MonoBehaviour {
 			if (this.gameObject.GetComponent<Character>() != null)
 			{
 				this.gameObject.GetComponent<Character>().enabled = false;
-				StartCoroutine(ResetLevel());
+				StartCoroutine(ResetToCheckpoint());
 			}
 		}
 	}
@@ -43,9 +43,11 @@ public class Death : MonoBehaviour {
 
 			yield return null;
 		}
+
+		sr.material.color = Color.white;
 	}
 
-	private IEnumerator ResetLevel()
+	private IEnumerator ResetToCheckpoint()
 	{
 		while (levelResetDelay > 0)
 		{
@@ -53,6 +55,14 @@ public class Death : MonoBehaviour {
 			yield return null;
 		}
 
-		Application.LoadLevel(Application.loadedLevel);
+		this.transform.GetComponent<Respawn>().Reset();
+		ResetVariables();
+	}
+
+	private void ResetVariables()
+	{
+		levelResetDelay = 2f;
+		flashTimer = 2f;
+		alreadyDying = false;
 	}
 }
