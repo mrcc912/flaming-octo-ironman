@@ -12,6 +12,13 @@ public class MovingObject : MonoBehaviour {
 	private float decelerateFactor = 2f;
 	private float maxVelocityX = 10f;
 
+	public BoxCollider2D box;
+
+
+	void Awake()
+	{
+		box = GetComponent<BoxCollider2D>();
+	}
 	// Update is called once per frame
 	void Update ()
 	{
