@@ -53,4 +53,9 @@ public class MovingObject : MonoBehaviour {
 	{
 		rigidbody2D.AddForce(new Vector2(push, -Physics2D.gravity.y * 50));
 	}
+
+	public void ArrestMovement()
+	{
+		rigidbody2D.velocity = Vector2.zero;
+	}
 }
