@@ -5,6 +5,7 @@ public class Launcher : MonoBehaviour {
 
 	[SerializeField] private GameObject projectile;
 	[SerializeField] private Transform spawnLocation;
+	[SerializeField] private float delayTime = 0.0f;
 	[SerializeField] private float repeatRate = 0.5f;
 	[SerializeField] private Direction direction = Direction.DOWN;
 	[SerializeField] private float xMagnitude;
@@ -12,7 +13,7 @@ public class Launcher : MonoBehaviour {
 	
 	void Start()
 	{
-		InvokeRepeating("launchProjectile", 0, repeatRate);
+		InvokeRepeating("launchProjectile", delayTime, repeatRate);
 	}
 
 	private void launchProjectile()
