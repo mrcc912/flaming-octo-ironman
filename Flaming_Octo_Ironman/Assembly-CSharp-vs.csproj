@@ -48,9 +48,13 @@
   <ItemGroup>
      <Compile Include="Assets\Resources\Scripts\CameraFollower.cs" />
      <Compile Include="Assets\Resources\Scripts\Character.cs" />
+     <Compile Include="Assets\Resources\Scripts\Damage.cs" />
+     <Compile Include="Assets\Resources\Scripts\Death.cs" />
      <Compile Include="Assets\Resources\Scripts\Helper.cs" />
+     <Compile Include="Assets\Resources\Scripts\Launcher.cs" />
      <Compile Include="Assets\Resources\Scripts\MovingObject.cs" />
      <Compile Include="Assets\Resources\Scripts\Platform.cs" />
+     <Compile Include="Assets\Resources\Scripts\Projectile.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
