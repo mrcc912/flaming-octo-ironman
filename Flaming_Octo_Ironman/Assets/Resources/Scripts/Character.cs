@@ -88,7 +88,8 @@ public class Character : MonoBehaviour {
 		{
 			for(int i=1; i<hits.Length; i++)
 			{
-				if(Vector2.Distance(hits[i].point, transform.position) <= teleportDistance)
+
+				if(!hits[i].collider.GetComponent<MagicLens>() && Vector2.Distance(hits[i].point, transform.position) <= teleportDistance)
 				{
 					destinationX = hits[i].point.x - (direction.x * (mover.box.size.x/2));
 					break;
