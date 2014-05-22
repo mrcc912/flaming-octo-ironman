@@ -1,10 +1,12 @@
 ﻿ using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Character : MonoBehaviour {
 
 	private enum Direction { Left, Right };
 
+	private List<Collision2D> collidedObjects;
 	private Direction collisionDirection;
 	private MovingObject mover;
 	private Animator animator;
@@ -22,6 +24,7 @@ public class Character : MonoBehaviour {
 	{
 		mover = GetComponent<MovingObject>();
 		animator = GetComponentInChildren<Animator>();
+		collidedObjects = new List<Collision2D>();
 	}
 
 	// Update is called once per frame
@@ -118,6 +121,8 @@ public class Character : MonoBehaviour {
 	{
 		if (collision.gameObject.GetComponent<Platform>() != null)
 		{
+			collidedObjects.Add(collision);
+
 			animator.SetInteger("State", 1);
 			mover.isInAir = false;
 
@@ -132,9 +137,15 @@ public class Character : MonoBehaviour {
 	{
 		if (collision.gameObject.GetComponent<Platform>() != null)
 		{
-			mover.isInAir = true;
-			isCollidingWithWall = false;
-			canJump = false;
+			collidedObjects.Remove(collision);
+
+			// If not colliding with anything, character must be in the air
+			if (collidedObjects.Count == 0)
+			{
+				mover.isInAir = true;
+				isCollidingWithWall = false;
+				canJump = false;
+			}
 		}
 	}
 

@@ -12,8 +12,6 @@ public class Respawn : MonoBehaviour {
 		{
 			furthestCheckpoint = other.GetComponent<ID>().identifier;
 			pointToReset = other.transform.position;
-
-			Debug.Log("Hit checkpoint: " + furthestCheckpoint + " / " + pointToReset);
 		}
 	}
 
