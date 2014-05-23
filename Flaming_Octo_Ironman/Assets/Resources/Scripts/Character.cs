@@ -23,7 +23,7 @@ public class Character : MonoBehaviour {
 
 	public float teleportDistance = 10f;
 
-
+	private float teleportDelay = .5f;
 
 	void Awake()
 	{
@@ -35,6 +35,11 @@ public class Character : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
+		if (canTeleport && teleportDelay > 0)
+		{
+			teleportDelay -= Time.deltaTime;
+		}
+
 		if(canTeleport && Input.GetKeyDown(KeyCode.F))
 		{
 			Teleport();
@@ -91,26 +96,30 @@ public class Character : MonoBehaviour {
 
 	private void Teleport()
 	{
-		Vector2 direction = ((animator.transform.localRotation.y == 0) ? 1 : -1) *  Vector2.right;
-		float destinationX = 0;
-		RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, teleportDistance);
-		if(hits.Length > 1)
+		if (teleportDelay <= 0)
 		{
-			for(int i=1; i<hits.Length; i++)
+			Vector2 direction = ((animator.transform.localRotation.y == 0) ? 1 : -1) *  Vector2.right;
+			float destinationX = 0;
+			RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, teleportDistance);
+			if(hits.Length > 1)
 			{
-
-				if(!hits[i].collider.GetComponent<MagicLens>() && Vector2.Distance(hits[i].point, transform.position) <= teleportDistance)
+				for(int i=1; i<hits.Length; i++)
 				{
-					destinationX = hits[i].point.x - (direction.x * (mover.box.size.x/2));
-					break;
+
+					if(!hits[i].collider.GetComponent<MagicLens>() && Vector2.Distance(hits[i].point, transform.position) <= teleportDistance)
+					{
+						destinationX = hits[i].point.x - (direction.x * (mover.box.size.x/2));
+						break;
+					}
 				}
 			}
+			if(destinationX == 0)
+				destinationX = transform.position.x + (direction.x * teleportDistance);
+			
+			transform.position = new Vector3(destinationX, transform.position.y, transform.position.z);
+
+			teleportDelay = .5f;
 		}
-		if(destinationX == 0)
-			destinationX = transform.position.x + (direction.x * teleportDistance);
-		
-		transform.position = new Vector3(destinationX, transform.position.y, transform.position.z);
-		
 	}
 	
 	private Direction DetermineCollisionDirection(Collision2D collision)

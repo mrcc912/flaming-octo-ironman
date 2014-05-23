@@ -6,6 +6,7 @@ using System.Collections;
 public class TargetedShot : MonoBehaviour {
 	
 	public GameObject projectile;
+	public bool reloaded;
 	public bool canShoot;
 
 	private GameObject shotToTrack = null;
@@ -13,7 +14,7 @@ public class TargetedShot : MonoBehaviour {
 
 	void Awake()
 	{
-		canShoot = true;
+		reloaded = true;
 		death = GetComponent<Death>();
 	}
 
@@ -23,14 +24,14 @@ public class TargetedShot : MonoBehaviour {
 		{
 			if (shotToTrack != null)
 			{
-				canShoot = false;
+				reloaded = false;
 			}
 			else
 			{
-				canShoot = true;
+				reloaded = true;
 			}
 
-			if (Input.GetMouseButtonUp(0) && canShoot)
+			if (Input.GetMouseButtonUp(0) && canShoot && reloaded )
 			{
 				{
 					Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
