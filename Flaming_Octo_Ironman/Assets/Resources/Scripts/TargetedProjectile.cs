@@ -7,9 +7,11 @@ public class TargetedProjectile : MonoBehaviour {
 
 	public float Force;
 
+	private float projectileOffset = .1f;
+
 	public void Launch(Vector2 direction)
 	{
-		rigidbody2D.transform.position += (Vector3)direction * .1f;
+		rigidbody2D.transform.position += (Vector3)direction * projectileOffset;
 		rigidbody2D.AddForce(gameObject.transform.up * Force);
 	}
 
