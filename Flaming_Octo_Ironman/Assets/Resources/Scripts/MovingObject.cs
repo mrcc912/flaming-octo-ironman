@@ -9,7 +9,6 @@ public class MovingObject : MonoBehaviour {
 	public bool isMoving;
 	public bool isInAir;
 
-	private float decelerateFactor = 2f;
 	private float maxVelocityX = 10f;
 
 	public BoxCollider2D box;

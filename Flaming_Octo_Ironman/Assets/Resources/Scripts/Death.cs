@@ -19,6 +19,11 @@ public class Death : MonoBehaviour {
 
 			StartCoroutine(FlashyDeath(sr));
 
+			if (this.gameObject.GetComponent<TargetedShot>() != null)
+			{
+				this.gameObject.GetComponent<TargetedShot>().canShoot = false;
+			}
+
 			if (this.gameObject.GetComponent<MovingObject>() != null)
 			{
 				this.gameObject.GetComponent<MovingObject>().ArrestMovement();

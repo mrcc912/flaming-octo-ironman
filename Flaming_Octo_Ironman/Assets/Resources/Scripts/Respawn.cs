@@ -18,6 +18,7 @@ public class Respawn : MonoBehaviour {
 	public void Reset()
 	{
 		gameObject.GetComponent<Character>().enabled = true;
+		gameObject.GetComponent<TargetedShot>().canShoot = true;
 
 		transform.position = pointToReset;
 	}
