@@ -33,29 +33,8 @@ public class Character : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.F))
 		{
 			Teleport();
+			return;
 		}
-		float horizontal = Input.GetAxisRaw("Horizontal");
-
-		if (horizontal != 0)
-		{
-			mover.Move(new Vector2(horizontal * speed, 0));
-			mover.isMoving = true;
-			animator.SetInteger("State", 2);
-			if(horizontal >0 )
-			{
-				Helper.SetYRotation(animator.transform, 0);
-			}
-			else
-			{
-				Helper.SetYRotation(animator.transform, 180);
-			}
-		}
-		else
-		{
-			mover.isMoving = false;
-			animator.SetInteger("State", 1);
-		}
-
 
 		if (Input.GetKeyDown(KeyCode.Space) && canJump)
 		{
@@ -76,6 +55,32 @@ public class Character : MonoBehaviour {
 				mover.Jump();
 			}
 			canJump = false;
+			return;
+		}
+
+		float horizontal = Input.GetAxisRaw("Horizontal");
+
+		if (horizontal != 0)
+		{
+			mover.Move(new Vector2(horizontal * speed, 0));
+			mover.isMoving = true;
+			animator.SetInteger("State", 2);
+			if(horizontal >0 )
+			{
+				Helper.SetYRotation(animator.transform, 0);
+			}
+			else
+			{
+				Helper.SetYRotation(animator.transform, 180);
+			}
+		}
+		else
+		{
+			mover.isMoving = false;
+			if (!mover.isInAir)
+			{
+				animator.SetInteger("State", 1);
+			}
 		}
 	}
 
