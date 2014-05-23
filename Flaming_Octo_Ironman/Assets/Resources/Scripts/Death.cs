@@ -8,7 +8,7 @@ public class Death : MonoBehaviour {
 	private float levelResetDelay = 2f;
 	private float flashTimer = 2f;
 
-	private bool alreadyDying;
+	public bool alreadyDying;
 
 	public void Die()
 	{
@@ -18,11 +18,6 @@ public class Death : MonoBehaviour {
 			SpriteRenderer sr = this.gameObject.GetComponentInChildren<SpriteRenderer>();
 
 			StartCoroutine(FlashyDeath(sr));
-
-			if (this.gameObject.GetComponent<TargetedShot>() != null)
-			{
-				this.gameObject.GetComponent<TargetedShot>().canShoot = false;
-			}
 
 			if (this.gameObject.GetComponent<MovingObject>() != null)
 			{

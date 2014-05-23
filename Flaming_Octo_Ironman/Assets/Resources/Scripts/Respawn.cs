@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Respawn : MonoBehaviour {
 
-	private int furthestCheckpoint = -1;
+	public int furthestCheckpoint = -1;
 	private Vector2 pointToReset;
 
 	void OnTriggerEnter2D(Collider2D other)
