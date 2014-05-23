@@ -15,13 +15,10 @@ public class Grid : MonoBehaviour {
 	public bool ignoreScale = false;
 	public List<GameObject> elements;
 
-	private Vector3 originalPosition;
-
 
 	// Use this for initialization
 	void Start () 
 	{
-		originalPosition = transform.position;
 		elements = new List<GameObject>();
 		Refresh();
 	}

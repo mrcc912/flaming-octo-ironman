@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class Character : MonoBehaviour {
 
+
+
+	public bool canTeleport = false;
 	private enum Direction { Left, Right };
 
 	private List<Collision2D> collidedObjects;
@@ -20,6 +23,8 @@ public class Character : MonoBehaviour {
 
 	public float teleportDistance = 10f;
 
+
+
 	void Awake()
 	{
 		mover = GetComponent<MovingObject>();
@@ -30,7 +35,7 @@ public class Character : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		if(Input.GetKeyDown(KeyCode.F))
+		if(canTeleport && Input.GetKeyDown(KeyCode.F))
 		{
 			Teleport();
 			return;

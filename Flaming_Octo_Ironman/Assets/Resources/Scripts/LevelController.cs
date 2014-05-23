@@ -3,7 +3,8 @@ using System.Collections;
 
 public class LevelController : MonoBehaviour {
 
-	public GameObject character;
+	public Character character;
+	public GameObject magicLens;
 	public GameObject[] levels = new GameObject[4];
 
 	private Respawn spawner;
@@ -16,6 +17,8 @@ public class LevelController : MonoBehaviour {
 		currentLevel = (GameObject)Instantiate(levels[currentLevelID], Vector3.zero, Quaternion.identity);
 
 		spawner = character.GetComponent<Respawn>();
+
+		magicLens.SetActive(false);
 	}
 	
 	void Update()
@@ -25,6 +28,8 @@ public class LevelController : MonoBehaviour {
 			currentLevelID++;
 			Destroy (currentLevel);
 			currentLevel = (GameObject)Instantiate (levels[currentLevelID], Vector3.zero, Quaternion.identity);
+			character.canTeleport = false;
+			magicLens.SetActive(false);
 		}
 
 		if (spawner.furthestCheckpoint == 8 && currentLevelID == 1)
@@ -32,6 +37,8 @@ public class LevelController : MonoBehaviour {
 			currentLevelID++;
 			Destroy (currentLevel);
 			currentLevel = (GameObject)Instantiate (levels[currentLevelID], Vector3.zero, Quaternion.identity);
+			character.canTeleport = true;
+			magicLens.SetActive(false);
 		}
 
 		if (spawner.furthestCheckpoint == 12 && currentLevelID == 2)
@@ -39,6 +46,8 @@ public class LevelController : MonoBehaviour {
 			currentLevelID++;
 			Destroy (currentLevel);
 			currentLevel = (GameObject)Instantiate (levels[currentLevelID], Vector3.zero, Quaternion.identity);
+			character.canTeleport = false;
+			magicLens.SetActive(true);
 		}
 	}
 }

@@ -50,12 +50,20 @@ public class TileSetup : MonoBehaviour {
 
 	void Setup()
 	{
+		if(transform.localScale != Vector3.one)
+		{
+			BoxCollider2D boxbox = GetComponent<BoxCollider2D>();
+			boxbox.size = new Vector2(boxbox.size.x * transform.localScale.x, boxbox.size.y * transform.localScale.y);
+			transform.localScale = Vector3.one;
+			GetComponent<SpriteRenderer>().enabled = false;
+			DestroyImmediate(GetComponent<SpriteRenderer>());
+		}
+
 		GameObject go = (GameObject)Instantiate(tilePrefab, Vector3.zero, Quaternion.identity);
 		Grid grid = GetComponent<Grid>();
 		BoxCollider2D box = GetComponent<BoxCollider2D>();
 		go.transform.parent = transform;	
 		Vector3 scale;
-		Grid.Direction dir;
 		bool at90Degrees = false;
 		if( Mathf.Abs ( Mathf.Abs(transform.localRotation.z) - 0.7f ) < 0.1f)
 		{
@@ -86,7 +94,7 @@ public class TileSetup : MonoBehaviour {
 
 		}
 		else
-		{
+		{	
 			if(at90Degrees)
 			{
 				grid.direction = Grid.Direction.Vertical;
