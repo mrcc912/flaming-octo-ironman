@@ -6,6 +6,7 @@ public class LevelController : MonoBehaviour {
 	public Character character;
 	public GameObject magicLens;
 	public GameObject[] levels = new GameObject[4];
+	public int unitsHealed = 0;
 
 	private TargetedShot shooter;
 	private Respawn spawner;
@@ -86,9 +87,9 @@ public class LevelController : MonoBehaviour {
 		}
 
 		// Level transition: Apples --> YOU WIN MOTHAFUCKA
-		if (spawner.furthestCheckpoint == 20 && currentLevelID == 3)
+		if (spawner.furthestCheckpoint == 22 && unitsHealed == 10 && currentLevelID == 3)
 		{
-			// YOU WIN THE GAME
+			Destroy (currentLevel);
 		}
 	}
 }
