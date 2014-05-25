@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class LevelController : MonoBehaviour {
 
@@ -28,7 +29,7 @@ public class LevelController : MonoBehaviour {
 
 	void Start()
 	{
-		character.transform.position = GameObject.Find("Spawn").transform.position;
+		character.transform.position = currentLevel.transform.Find("Spawn").transform.position;
 	}
 	
 	void Update()
@@ -47,7 +48,9 @@ public class LevelController : MonoBehaviour {
 
 			character.canTeleport = true;
 
-			character.transform.position = GameObject.Find("Spawn").transform.position;
+			character.transform.position = currentLevel.transform.Find("Spawn").transform.position;
+
+			SetTrapsToKinematic();
 		}
 
 		/* Level transition: Teleport --> Ghostery
@@ -65,7 +68,9 @@ public class LevelController : MonoBehaviour {
 			character.canTeleport = false;
 			magicLens.SetActive(true);
 
-			character.transform.position = GameObject.Find("Spawn").transform.position;
+			character.transform.position = currentLevel.transform.Find("Spawn").transform.position;
+
+			SetTrapsToKinematic();
 		}
 
 		/* Level transition: Ghostery --> Apples
@@ -83,13 +88,47 @@ public class LevelController : MonoBehaviour {
 			magicLens.SetActive(false);
 			shooter.canShoot = true;
 
-			character.transform.position = GameObject.Find("Spawn").transform.position;
+			character.transform.position = currentLevel.transform.Find("Spawn").transform.position;
+
+			SetTrapsToKinematic();
 		}
 
-		// Level transition: Apples --> YOU WIN MOTHAFUCKA
+		// Level transition: Apples --> YOU WIN MOTHERFUCKER
 		if (spawner.furthestCheckpoint == 22 && unitsHealed == 10 && currentLevelID == 3)
 		{
 			Destroy (currentLevel);
 		}
+	}
+
+	private void SetTrapsToKinematic()
+	{
+		List<GameObject> traps = GetObjectsWithWord("trap");
+
+		foreach (GameObject trap in traps)
+		{
+			if (trap.GetComponent<Rigidbody2D>() != null)
+			{
+				trap.rigidbody2D.isKinematic = true;
+			}
+		}
+	}
+
+	private List<GameObject> GetObjectsWithWord(string keyword)
+	{
+		List<GameObject> gameObjects = new List<GameObject>();
+		Object[] allObjects = FindObjectsOfType(typeof(GameObject));
+
+		foreach (GameObject thing in allObjects)
+		{
+			if (thing.activeInHierarchy)
+			{
+				if (thing.name.ToLower().Contains(keyword.ToLower()))
+				{
+					gameObjects.Add((GameObject) thing);
+				}
+			}
+		}
+
+		return gameObjects;
 	}
 }

@@ -10,13 +10,14 @@ public class Passed : MonoBehaviour {
 	void Awake()
 	{
 		particleSystem.startSpeed = speed;
+		particleSystem.startLifetime = 1f;
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.gameObject.GetComponent<Character>() != null)
 		{
-			particleSystem.startSpeed = 1;
+			particleSystem.startSpeed = 1f;
 		}
 	}
 }
