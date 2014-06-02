@@ -17,7 +17,7 @@ public class Passed : MonoBehaviour {
 	{
 		if (other.gameObject.GetComponent<Character>() != null)
 		{
-			particleSystem.startSpeed = 1f;
+			particleSystem.startSpeed = .5f;
 		}
 	}
 }

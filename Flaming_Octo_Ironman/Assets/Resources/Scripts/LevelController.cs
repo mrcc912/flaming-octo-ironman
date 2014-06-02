@@ -94,9 +94,10 @@ public class LevelController : MonoBehaviour {
 		}
 
 		// Level transition: Apples --> YOU WIN MOTHERFUCKER
-		if (spawner.furthestCheckpoint == 22 && unitsHealed == 10 && currentLevelID == 3)
+		if (unitsHealed == 10 && currentLevelID == 3)
 		{
 			Destroy (currentLevel);
+			Destroy (character.gameObject);
 		}
 	}
 

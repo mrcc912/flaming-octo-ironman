@@ -7,14 +7,11 @@ public class Character : MonoBehaviour {
 
 
 	public bool canTeleport = false;
-	private enum Direction { Left, Right };
 
-	private List<Collision2D> collidedObjects;
-	private Direction collisionDirection;
+	private List<GameObject> collidedObjects;
 	private MovingObject mover;
 	private Animator animator;
 
-	private bool isCollidingWithWall;
 	private bool canJump;
 
 	private float speed = 10f;
@@ -29,7 +26,7 @@ public class Character : MonoBehaviour {
 	{
 		mover = GetComponent<MovingObject>();
 		animator = GetComponentInChildren<Animator>();
-		collidedObjects = new List<Collision2D>();
+		collidedObjects = new List<GameObject>();
 	}
 
 	// Update is called once per frame
@@ -46,12 +43,14 @@ public class Character : MonoBehaviour {
 			return;
 		}
 
+		float horizontal = Input.GetAxisRaw("Horizontal");
+
 		if (Input.GetKeyDown(KeyCode.Space) && canJump)
 		{
 			animator.SetInteger("State", 3);
-			if (isCollidingWithWall)
+			if (horizontal != 0)
 			{
-				if (collisionDirection == Direction.Left)
+				if (horizontal > 0)
 				{
 					mover.Jump(jumpPush);
 				}
@@ -64,18 +63,26 @@ public class Character : MonoBehaviour {
 			{
 				mover.Jump();
 			}
+			mover.isInAir = true;
 			canJump = false;
 			return;
 		}
-
-		float horizontal = Input.GetAxisRaw("Horizontal");
 
 		if (horizontal != 0)
 		{
 			mover.Move(new Vector2(horizontal * speed, 0));
 			mover.isMoving = true;
-			animator.SetInteger("State", 2);
-			if(horizontal >0 )
+
+			if (mover.isInAir)
+			{
+				animator.SetInteger("State", 4);
+			}
+			else
+			{
+				animator.SetInteger("State", 2);
+			}
+
+			if(horizontal > 0)
 			{
 				Helper.SetYRotation(animator.transform, 0);
 			}
@@ -121,35 +128,17 @@ public class Character : MonoBehaviour {
 			teleportDelay = .5f;
 		}
 	}
-	
-	private Direction DetermineCollisionDirection(Collision2D collision)
-	{
-		Vector2 hitDirection = collision.contacts[1].point - (Vector2)transform.position;
-		Vector2 left = transform.TransformDirection(Vector3.left);
-		
-		if (Vector2.Dot(left, hitDirection) > 0)
-		{
-			return Direction.Left;
-		}
-		else
-		{
-			return Direction.Right;
-		}
-	}
 
 	void OnCollisionEnter2D(Collision2D collision)
 	{
 		if (collision.gameObject.GetComponent<Platform>() != null)
 		{
-			collidedObjects.Add(collision);
+			collidedObjects.Add(collision.gameObject);
 
 			animator.SetInteger("State", 1);
 			mover.isInAir = false;
 
-			isCollidingWithWall = true;
 			canJump = true;
-
-			collisionDirection = DetermineCollisionDirection(collision);
 		}
 	}
 
@@ -157,13 +146,12 @@ public class Character : MonoBehaviour {
 	{
 		if (collision.gameObject.GetComponent<Platform>() != null)
 		{
-			collidedObjects.Remove(collision);
+			collidedObjects.Remove(collision.gameObject);
 
 			// If not colliding with anything, character must be in the air
 			if (collidedObjects.Count == 0)
 			{
 				mover.isInAir = true;
-				isCollidingWithWall = false;
 				canJump = false;
 			}
 		}
